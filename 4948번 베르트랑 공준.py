@@ -1,0 +1,2 @@
+aras = input()
+print(aras)
