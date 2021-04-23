@@ -20,10 +20,28 @@ def bfs():
             if graph[i][j] == "S":
                 queue_amurensis.append([i, j])
 
-    while queue_water:
-        a, b = queue_water.popleft()
-        for k in range(4):
-            x = a + dx[k]
-            y = b + dy[k]
-            if 0 <= x < R and 0 <= y < C and graph[x][y] == ".":
-                queue_water.append([x, y])
+
+    while queue_water or queue_amurensis:
+        while queue_water:
+            a, b = queue_water.popleft()
+            for k in range(4):
+                x = a + dx[k]
+                y = b + dy[k]
+                if 0 <= x < R and 0 <= y < C and graph[x][y] == ".":
+                    queue_water.append([x, y])
+                    graph[x][y] = "*"
+
+        while queue_amurensis:
+            c, d = queue_amurensis.popleft()
+            if graph[c][d] == "D":
+                return count
+            for k in range(4):
+                nx = c + dx[k]
+                ny = d + dy[k]
+                if 0 <= nx < R and 0 <= ny < C and graph[nx][ny] == "." or "D":
+                    queue_amurensis.append([nx, ny])
+                    count += 1
+
+
+
+print(bfs())
