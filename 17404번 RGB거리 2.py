@@ -9,9 +9,9 @@ INF = maxsize
 result = INF
 
 
-for first in range(3):
+for firstcolor in range(3):
     for i in range(3):
-        if first == i:
+        if firstcolor == i:
             dp[1][i] = RGB[1][i]
         else:
             dp[1][i] = INF
@@ -22,8 +22,9 @@ for first in range(3):
         dp[i][2] = RGB[i][2] + min(dp[i-1][0], dp[i-1][1])
 
     for i in range(3):
-        if i == first:
+        if i == firstcolor:
             continue
         result = min(result, dp[n][i])
+
 
 print(result)
