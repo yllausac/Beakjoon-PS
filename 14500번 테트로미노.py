@@ -26,7 +26,7 @@ def middle(x, y):
     global result
     for i in mfinger:
         try:
-            temp = paper[x][y] + paper[x + i[0][0]][y + i[0][1]] + paper[x + i[1][0]][y + i[1][1]] + paper[x + i[2][0]][y + paper[2][1]]
+            temp = paper[x][y] + paper[x + i[0][0]][y + i[0][1]] + paper[x + i[1][0]][y + i[1][1]] + paper[x + i[2][0]][y + i[2][1]]
         except:
             temp = 0
         result = max(result, temp)
