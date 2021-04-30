@@ -13,7 +13,7 @@ def switch(x):
 
 def click(state, cnt):
     count = cnt
-    if count == 1:
+    if count == 1:  # 시작할 때 스위치를 눌렀다면
         state[0] = switch(state[0])
         state[1] = switch(state[1])
     for i in range(1, n):
