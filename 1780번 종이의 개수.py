@@ -2,7 +2,6 @@ n = int(input())
 paper = []
 for _ in range(n):
     paper.append(list(map(int, input().split())))
-
 neg = 0
 zero = 0
 pos = 0
