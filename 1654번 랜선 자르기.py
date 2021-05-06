@@ -7,10 +7,10 @@ start, end = 1, lan[-1]
 
 
 while start <= end:
-    mid = (start + end) // 2
-    count = 0
+    mid = (start + end) // 2  # 중간위치
+    count = 0  # 랜선 수
     for i in lan:
-        count += i // mid
+        count += i // mid  # 분할된 랜선 수
 
     if count >= n:
         start = mid + 1
