@@ -15,7 +15,7 @@ def binarySearch(target):
     start, end = 0, max(tree)
     ans = 0
     while start <= end:
-        mid = (start + end)
+        mid = (start + end) // 2
         result = treeSum(mid)
         if result < target:
             end = mid - 1
