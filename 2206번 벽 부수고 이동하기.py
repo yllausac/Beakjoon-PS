@@ -9,7 +9,7 @@ dx, dy = [1, -1, 0, 0], [0, 0, -1, 1]
 
 
 def bfs():
-    visit = [[0] * m for i in range(n)]
+    visit = [[0] * m for _ in range(n)]
     visit[0][0] = 1
     queue = deque()
     queue.append([0, 0])
