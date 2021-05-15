@@ -51,3 +51,4 @@ for i in range(n):
 
 dfs(office, 0)
 print(result)
+
