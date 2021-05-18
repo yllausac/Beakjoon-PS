@@ -8,7 +8,7 @@ def pre_order(in_l, in_r, post_l, post_r):
     if in_l > in_r or post_l > post_r:
         return  # 역전되면 구분할 노드가 없는 것
 
-    root = postorder[post_r]
+    root = postorder[post_r]  # root는 postorder의 마지막노드 전
     print(root, end=' ')
 
     left = idx[root] - in_l  # 왼쪽 개수
