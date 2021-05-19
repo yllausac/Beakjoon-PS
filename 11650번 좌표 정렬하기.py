@@ -1,7 +1,8 @@
-n = int(input())
+import sys
+n = int(sys.stdin.readline())
 cor = []
 for _ in range(n):
-    cor.append(list(map(int, input().split())))
+    cor.append(list(map(int, sys.stdin.readline().split())))
 cor.sort()
 for i in range(n):
     for j in range(2):
