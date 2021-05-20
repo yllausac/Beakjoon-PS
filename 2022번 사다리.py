@@ -9,7 +9,7 @@ while (abs(right-left) > 1e-6):  # abs는 절댓값을 반환한다.
     h1 = math.sqrt(x*x - d*d)  # sqrt는 제곱근을 반환한다.
     h2 = math.sqrt(y*y - d*d)
     h = (h1*h2) / (h1+h2)
-    if h > c:
+    if h > c:  # 이분탐색
         left = mid
     else:
         right = mid
