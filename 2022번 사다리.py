@@ -3,7 +3,7 @@ import math
 x, y, c = map(float, input().split())
 left, right = 0, min(x, y)
 
-while (abs(right-left) > 1e-6):  # abs는 절댓값을 반환한다.
+while abs(right - left) > 1e-6:  # abs는 절댓값을 반환한다.
     mid = (left + right) / 2.0
     d = mid
     h1 = math.sqrt(x*x - d*d)  # sqrt는 제곱근을 반환한다.
