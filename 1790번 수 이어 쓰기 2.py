@@ -5,6 +5,7 @@ num_count = 9
 num_length = 1
 tenten = 1
 cal_k = k
+result = -1
 
 while cal_k > num_count * num_length:
     total_num += num_count
@@ -15,7 +16,8 @@ while cal_k > num_count * num_length:
 total_num += (cal_k - 1) // num_length + 1
 
 if total_num > n:
-    result = -1
+    print(result)
+    exit()
 else:
     temp = (cal_k - 1) % num_length + 1
 
@@ -28,4 +30,3 @@ else:
         tenten //= 10
 
 print(result)
-
