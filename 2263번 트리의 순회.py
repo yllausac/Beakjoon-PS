@@ -20,5 +20,5 @@ def pre_order(in_l, in_r, post_l, post_r):
 
 for i in range(n):
     idx[inorder[i]] = i  # post order의 끝 값이 inorder의 어디 인덱스에 위치한지 확인을 위해
-
+print(idx)
 pre_order(0, n-1, 0, n-1)
