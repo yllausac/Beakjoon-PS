@@ -1,6 +1,13 @@
-# 끝을 만났을 때는 die
-# apple -> 몸길이 +1,
-# (0,0)부터 시작
+N = int(input())
+board = [[0 for i in range(N)] for j in range(N)]
+
+# apple 넣기
+k = int(input())
+apple_locs = []
+for _ in range(k):
+    x, y = map(int, input().split())
+    board[x - 1][y - 1] = 1
+
 
 def Solution():
     time = 0
@@ -39,6 +46,8 @@ def Solution():
         elif board[nx][ny] == 2:
             break
 
+        # 왼쪽으로 돌리기 = (현재 방향 + 3) % 4
+        # 오른쪽으로 돌리기 = (현재 방향 + 1) % 4
         if len(snake_dir) != 0 and time == snake_dir[0][0]:
             time, new_dir = snake_dir.pop(0)
             if new_dir == 'L':  # 왼쪽
@@ -49,20 +58,6 @@ def Solution():
     return time
 
 
-# 왼쪽으로 돌리기 = (현재 방향 + 3) % 4
-# 오른쪽으로 돌리기 = (현재 방향 + 1) % 4
-# board
-N = int(input())
-board = [[0 for i in range(N)] for j in range(N)]
-
-# apple 넣기
-k = int(input())
-apple_locs = []
-for _ in range(k):
-    x, y = map(int, input().split())
-    board[x - 1][y - 1] = 1
-
-# snake 시간, 방향
 l = int(input())
 # (sec, c(left) or d(right))
 snake_dir = list(map(lambda x: [int(x[0]), str(x[1])], [input().split() for _ in range(l)]))
