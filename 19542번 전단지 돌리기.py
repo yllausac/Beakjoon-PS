@@ -6,9 +6,10 @@ for _ in range(n-1):
     graph[y][x] = 1
 print(graph)
 visited = [0]*n
-
+cnt = 0
 
 def find(x):
+    global cnt
     if parents[x] == x:
         return cnt
     if visited[x]:
@@ -18,5 +19,4 @@ def find(x):
         visited[x] = True
         return find(parents[x])
 
-parents =
-
+parents = []
