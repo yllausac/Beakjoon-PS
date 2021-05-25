@@ -1,5 +1,2 @@
-tenten = 1
-for i in range(9):
-    tenten *= 10
-
-print(tenten)
+for i in range(10,-1, -1):
+    print(i)
