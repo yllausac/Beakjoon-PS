@@ -54,6 +54,6 @@ def bfs():
                 if not visit[nRi][nRj][nBi][nBj]:
                     visit[nRi][nRj][nBi][nBj] = True
                     queue.append([nRi, nRj, nBi, nBj, d+1])
-
+    print(-1)
 
 bfs()
