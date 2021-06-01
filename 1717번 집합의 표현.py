@@ -1,6 +1,5 @@
 n, m = map(int, input().split())
 dp = [i for i in range(n+1)]
-print(dp)
 
 
 def find(target):
