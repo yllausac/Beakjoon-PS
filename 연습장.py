@@ -1,5 +1,6 @@
 import random
 
+TRIALS = 100000
 same_birthdays = 0
 
 for _ in range(TRIALS):
