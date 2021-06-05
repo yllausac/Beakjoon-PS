@@ -1,6 +1,5 @@
 import random
 
-TRIALS = 100000
 same_birthdays = 0
 
 for _ in range(TRIALS):
@@ -13,3 +12,5 @@ for _ in range(TRIALS):
         birthdays.append(birthday)
 
 print(f'{same_birthdays / TRIALS*100}%')
+
+
