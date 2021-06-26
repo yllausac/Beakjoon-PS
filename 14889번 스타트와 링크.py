@@ -39,7 +39,3 @@ result = 1000000000
 temp = [0]
 dfs(temp)
 print(result)
-
-
-
-
