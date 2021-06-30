@@ -1,42 +1,89 @@
-from copy import deepcopy
+import sys, copy
+
+input = sys.stdin.readline
 
 n = int(input())
-s = []
-for _ in range(n):
-    s.append(list(map(int, input().split())))
+board = [list(map(int, input().split())) for _ in range(n)]
+ans = 0
 
 
-def dif(start):
-    global result
-    link = []
-    for i in range(n):
-        if i in start:
-            continue
-        link.append(i)
-    start_n = 0
-    link_n = 0
-    for i in range(n//2 - 1):
-        for j in range(i+1, n // 2):
-            a, b = start[i], start[j]
-            c, d = link[i], link[j]
-            start_n += s[a][b] + s[b][a]
-            link_n += s[c][d] + s[d][c]
-    result = min(result, abs(start_n - link_n))
+def move(dir):
+    if dir == 0:  # 위로 이동
+        for j in range(n):
+            idx = 0
+            for i in range(1, n):
+                if board[i][j]:  # 숫자가 있는 칸이면
+                    temp = board[i][j]  # temp에 숫자 저장
+                    board[i][j] = 0  # 0으로 바꿔줌
+                    if board[idx][j] == 0:
+                        board[idx][j] = temp
+                    elif board[idx][j] == temp:
+                        board[idx][j] = temp * 2
+                        idx += 1
+                    else:
+                        idx += 1
+                        board[idx][j] = temp
+    elif dir == 1:  # 아래로 이동
+        for j in range(n):
+            idx = n - 1
+            for i in range(n - 2, -1, -1):
+                if board[i][j]:
+                    temp = board[i][j]
+                    board[i][j] = 0
+                    if board[idx][j] == 0:
+                        board[idx][j] = temp
+                    elif board[idx][j] == temp:
+                        board[idx][j] = temp * 2
+                        idx -= 1
+                    else:
+                        idx -= 1
+                        board[idx][j] = temp
+
+    elif dir == 2:  # 좌로 이동
+        for i in range(n):
+            idx = 0
+            for j in range(1, n):
+                if board[i][j]:
+                    temp = board[i][j]
+                    board[i][j] = 0
+                    if board[i][idx] == 0:
+                        board[i][idx] = temp
+                    elif board[i][idx] == temp:
+                        board[i][idx] = temp * 2
+                        idx += 1
+                    else:
+                        idx += 1
+                        board[i][idx] = temp
+    else:  # 우로 이동
+        for i in range(n):
+            idx = n - 1
+            for j in range(n-2, -1, -1):
+                if board[i][j]:
+                    temp = board[i][j]
+                    board[i][j] = 0
+                    if board[i][idx] == 0:
+                        board[i][idx] = temp
+                    elif board[i][idx] == temp:
+                        board[i][idx] = temp * 2
+                        idx -= 1
+                    else:
+                        idx -= 1
+                        board[i][idx] = temp
 
 
-def dfs(temp):
-    t = deepcopy(temp)
-    if len(t) == n//2:
-        dif(t)
+def dfs(cnt):
+    global board, ans
+    if cnt == 5:
+        for i in range(n):
+            for j in range(n):
+                ans = max(ans, board[i][j])
         return
-    for i in range(t[-1] + 1, n):
-        t.append(i)
-        dfs(t)
-        t.pop()
+    temp_a = copy.deepcopy(board)
+    for i in range(4):
+        move(i)
+        dfs(cnt + 1)
+        board = copy.deepcopy(temp_a)
 
 
-result = 1000000000
-temp = [0]
-dfs(temp)
-print(result)
-
+dfs(0)
+print(ans)
