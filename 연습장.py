@@ -1,16 +1,9 @@
-n = int(input())
-a = list(map(int, input().split()))
-b, c = map(int, input().split())
-count = 0
-
-for i in a:
-    if b > i:
-        count += 1
-    else:
-        ans = b
-        count += 1
-        while ans < i:
-            ans += c
-            count += 1
-
-print(count)
+n = list(input())
+n.sort(reverse=True)
+sum = 0
+for i in n:
+    sum += int(i)
+if sum % 3 != 0 or "0" not in n:
+    print(-1)
+else:
+    print(''.join(n))
