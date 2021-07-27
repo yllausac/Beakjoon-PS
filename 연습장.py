@@ -2,16 +2,14 @@ import sys
 import heapq
 
 input = sys.stdin.readline
-INF = int(1e9)
-n = int(input())
-m = int(input())
-
-dp = [INF]*(n+1)
-heap = []
+INF = 1e9
+n, m, x = map(int, input().split())
 graph = [[]for _ in range(n+1)]
 
 
 def Dijkstra(start):
+    heap = []
+    dp = [INF]*(n+1)
     dp[start] = 0
     heapq.heappush(heap, (0, start))
 
@@ -24,12 +22,18 @@ def Dijkstra(start):
             if next_wei < dp[next_node]:
                 dp[next_node] = next_wei
                 heapq.heappush(heap, (next_wei, next_node))
+    return dp
 
 
 for _ in range(m):
-    u, v, w = map(int, input().split())
-    graph[u].append((w, v))
-start, end = map(int, input().split())
+    u, v, t = map(int, input().split())
+    graph[u].append((t, v))
 
-Dijkstra(start)
-print(dp[end])
+result = 0
+for i in range(1, n+1):
+    go = Dijkstra(i)
+    back = Dijkstra(x)
+    result = max(result, go[x] + back[i])
+
+
+print(result)
