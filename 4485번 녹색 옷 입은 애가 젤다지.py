@@ -7,7 +7,7 @@ dx, dy = [1, -1, 0, 0], [0, 0, -1, 1]
 cnt = 1
 
 
-def bfs():
+def Dijkstra():
     dp = [[1e9] * n for _ in range(n)]
     dp[0][0] = graph[0][0]
     visit = [[0] * n for _ in range(n)]
@@ -32,6 +32,6 @@ while True:
     graph = []
     for i in range(n):
         graph.append(list(map(int, input().split())))
-    result = bfs()
+    result = Dijkstra()
     print("Problem %d: %d" % (cnt, result))
     cnt += 1
