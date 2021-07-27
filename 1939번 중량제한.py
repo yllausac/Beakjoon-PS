@@ -17,7 +17,6 @@ def Dijkstra(c):
     queue.append(start)
     visited = set()
     visited.add(start)
-    result = []
     while queue:
         y = queue.popleft()
         for w, x in graph[y]:
