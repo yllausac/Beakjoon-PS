@@ -1,39 +1,37 @@
 import sys
 import heapq
 
+
 input = sys.stdin.readline
-INF = 1e9
-n, m, x = map(int, input().split())
-graph = [[]for _ in range(n+1)]
+dx, dy = [1, -1, 0, 0], [0, 0, -1, 1]
+cnt = 1
 
 
-def Dijkstra(start):
+def Dijkstra():
+    dp = [[1e9] * n for _ in range(n)]
+    dp[0][0] = graph[0][0]
+    visit = [[0] * n for _ in range(n)]
     heap = []
-    dp = [INF]*(n+1)
-    dp[start] = 0
-    heapq.heappush(heap, (0, start))
-
+    heapq.heappush(heap, [graph[0][0], 0, 0])
     while heap:
-        wei, now = heapq.heappop(heap)
-        if dp[now] < wei:
-            continue
-        for w, next_node in graph[now]:
-            next_wei = w + wei
-            if next_wei < dp[next_node]:
-                dp[next_node] = next_wei
-                heapq.heappush(heap, (next_wei, next_node))
-    return dp
+        c, a, b = heapq.heappop(heap)
+        for k in range(4):
+            x = a + dx[k]
+            y = b + dy[k]
+            if 0 <= x < n and 0 <= y < n and visit[x][y] == 0:
+                dp[x][y] = min(dp[x][y], dp[a][b] + graph[x][y])
+                heapq.heappush(heap, [dp[x][y], x, y])
+                visit[x][y] = 1
+    return dp[n-1][n-1]
 
 
-for _ in range(m):
-    u, v, t = map(int, input().split())
-    graph[u].append((t, v))
-
-result = 0
-for i in range(1, n+1):
-    go = Dijkstra(i)
-    back = Dijkstra(x)
-    result = max(result, go[x] + back[i])
-
-
-print(result)
+while True:
+    n = int(input())
+    if n == 0:
+        break
+    graph = []
+    for i in range(n):
+        graph.append(list(map(int, input().split())))
+    result = Dijkstra()
+    print("Problem %d: %d" % (cnt, result))
+    cnt += 1
