@@ -52,4 +52,3 @@ for _ in range(m+k):
         update(1, 0, n-1, b, diff)
     elif a == 2:
         print(subSum(1, 0, n-1, b-1, c-1))
-
