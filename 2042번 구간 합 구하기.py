@@ -8,6 +8,7 @@ for _ in range(n):
     l.append(int(input().rstrip()))
 
 
+# 세그먼트 트리 생성
 def init(node, start, end):
     if start == end:
         tree[node] = l[start]
@@ -17,6 +18,9 @@ def init(node, start, end):
         return tree[node]
 
 
+# 구간 합 구하기
+# node가 담당하는 구간 [start, end]
+# 합을 구해야하는 구간 [left, right]
 def subSum(node, start, end, left, right):
     if left > end or right < start:
         return 0
