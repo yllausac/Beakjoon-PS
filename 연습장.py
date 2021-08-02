@@ -1,5 +1,5 @@
 n = 10
-array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11]
 tree = [0] * (n*4)
 
 
@@ -9,6 +9,7 @@ def init(start, end, index):
         return tree[index]
     mid = (start + end) // 2
     tree[index] = init(start, mid, index*2) + init(mid+1, end, index*2+1)
+    return tree[index]
 
 
 def query(start, end, index, qleft, qright):
