@@ -17,7 +17,7 @@ def query(start, end, index, qleft, qright):
     if qleft <= start and end <= qright:
         return tree[index]
     mid = (start+end)//2
-    return query(start, mid, index*2, qleft, qright) + query(mid+1, end, index*2+1, qleft,qright)
+    return query(start, mid, index*2, qleft, qright) + query(mid+1, end, index*2+1, qleft, qright)
 
 
 init(1, n, 1)
