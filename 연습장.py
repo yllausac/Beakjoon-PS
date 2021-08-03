@@ -1,26 +1,33 @@
-n = 10
-array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11]
-tree = [0] * (n*4)
+import sys
 
 
-def init(start, end, index):
-    if start == end:
-        tree[index] = array[start]
-        return tree[index]
-    mid = (start + end) // 2
-    tree[index] = init(start, mid, index*2) + init(mid+1, end, index*2+1)
-    return tree[index]
+input = sys.stdin.readline
+n = int(input())
+num = list(map(int, input().split()))
+num.sort()
+m = int(input())
+item = list(map(int, input().split()))
 
 
-def query(start, end, index, qleft, qright):
-    if qleft > end or qright < start:
-        return 0
-    if qleft <= start and end <= qright:
-        return tree[index]
-    mid = (start+end)//2
-    return query(start, mid, index*2, qleft, qright) + query(mid+1, end, index*2+1, qleft, qright)
+def binary_search(num, test):
+    left = 0
+    right = len(num) - 1
+
+    while left <= right:
+        mid = (left + right) // 2
+        current_item = num[mid]
+        if current_item == test:
+            return 1
+        else:
+            if test < current_item:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+    return 0
 
 
-init(1, n, 1)
-s, e = map(int, input().split())
-print(query(1, n, 1, s, e))
+for test in item:
+    print(binary_search(num, test))
+
+
