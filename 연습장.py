@@ -1,33 +1,30 @@
 import sys
 
-
 input = sys.stdin.readline
 n = int(input())
-num = list(map(int, input().split()))
-num.sort()
+budgets = list(map(int, input().split()))
+budgets.sort()
 m = int(input())
-item = list(map(int, input().split()))
 
 
-def binary_search(num, test):
+def binary_search(budgets):
     left = 0
-    right = len(num) - 1
+    right = budgets[-1]
 
     while left <= right:
         mid = (left + right) // 2
-        current_item = num[mid]
-        if current_item == test:
-            return 1
-        else:
-            if test < current_item:
-                right = mid - 1
+        num = 0
+        for budget in budgets:
+            if budget >= mid:
+                num += mid
             else:
-                left = mid + 1
+                num += budget
+        if num <= m:
+            left = mid + 1
+        else:
+            right = mid - 1
 
-    return 0
+    return right
 
 
-for test in item:
-    print(binary_search(num, test))
-
-
+print(binary_search(budgets))
