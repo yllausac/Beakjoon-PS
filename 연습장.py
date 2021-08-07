@@ -1,28 +1,55 @@
 import sys
 
-sys.setrecursionlimit(10 ** 9)
 input = sys.stdin.readline
-n = int(input())
-graph = [[]for _ in range(n+1)]
-for _ in range(n-1):
-    u, v = map(int, input().split())
-    graph[u].append(v)
-    graph[v].append(u)
-visit = [0 for _ in range(n+1)]
-dp = [[0, 0] for _ in range(n+1)]
+n, m, k = map(int, input().split())
+l = []
+tree = [0] * 3000000
+for _ in range(n):
+    l.append(int(input().rstrip()))
 
 
-def adapter(node):
-    visit[node] = 1
-    dp[node][0] = 1
-    for i in graph[node]:
-        if visit[i] == 0:
-            adapter(i)
-            # i 노드가 얼리어답터일 때의 서브트리에서 얼리어답터의 최소값
-            dp[node][0] += min(dp[i][0], dp[i][1])
-            # i 노드가 얼리어답터가 아닐 때의 서브트리에서 얼리어답터의 최소값
-            dp[node][1] += dp[i][0]
+# 세그먼트 트리 생성
+def init(node, start, end):
+    if start == end:
+        tree[node] = l[start]
+        return tree[node]
+    else:
+        tree[node] = init(node*2, start, (start+end)//2) + init(node*2+1, (start+end)//2+1, end)
+        return tree[node]
 
 
-adapter(1)
-print(min(dp[1][0], dp[1][1]))
+# 구간 합 구하기
+# node가 담당하는 구간 [start, end]
+# 합을 구해야하는 구간 [left, right]
+def subSum(node, start, end, left, right):
+    if left > end or right < start:
+        return 0
+    if left <= start and end <= right:
+        return tree[node]
+
+    return subSum(node*2, start, (start+end)//2, left, right) + subSum(node*2 + 1, (start+end)//2+1, end, left, right)
+
+
+def update(node, start, end, index, diff):
+    if index < start or index > end:
+        return
+    tree[node] += diff
+
+    if start != end:
+        update(node*2, start, (start+end)//2, index, diff)
+        update(node*2+1, (start+end)//2+1, end, index, diff)
+
+
+init(1, 0, n-1)
+
+for _ in range(m+k):
+    a, b, c = map(int, input().rstrip().split())
+
+    if a == 1:
+        b = b-1
+        diff = c - l[b]
+        l[b] = c
+        update(1, 0, n-1, b, diff)
+    elif a == 2:
+        print(subSum(1, 0, n-1, b-1, c-1))
+)
