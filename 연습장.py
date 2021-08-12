@@ -17,39 +17,33 @@ def init(node, start, end):
         tree[node] = init(node*2, start, (start+end)//2) + init(node*2+1, (start+end)//2+1, end)
         return tree[node]
 
+import sys
 
-# 구간 합 구하기
-# node가 담당하는 구간 [start, end]
-# 합을 구해야하는 구간 [left, right]
-def subSum(node, start, end, left, right):
-    if left > end or right < start:
-        return 0
-    if left <= start and end <= right:
-        return tree[node]
-
-    return subSum(node*2, start, (start+end)//2, left, right) + subSum(node*2 + 1, (start+end)//2+1, end, left, right)
+input = sys.stdin.readline
+n = int(input())
+budgets = list(map(int, input().split()))
+budgets.sort()
+m = int(input())
 
 
-def update(node, start, end, index, diff):
-    if index < start or index > end:
-        return
-    tree[node] += diff
+def binary_search(budgets):
+    left = 0
+    right = budgets[-1]
 
-    if start != end:
-        update(node*2, start, (start+end)//2, index, diff)
-        update(node*2+1, (start+end)//2+1, end, index, diff)
+    while left <= right:
+        mid = (left + right) // 2
+        num = 0
+        for budget in budgets:
+            if budget >= mid:
+                num += mid
+            else:
+                num += budget
+        if num <= m:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return right
 
 
-init(1, 0, n-1)
-
-for _ in range(m+k):
-    a, b, c = map(int, input().rstrip().split())
-
-    if a == 1:
-        b = b-1
-        diff = c - l[b]
-        l[b] = c
-        update(1, 0, n-1, b, diff)
-    elif a == 2:
-        print(subSum(1, 0, n-1, b-1, c-1))
-)
+print(binary_search(budgets))
