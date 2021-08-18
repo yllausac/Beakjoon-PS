@@ -1,49 +1,46 @@
+from collections import deque
 import sys
 
-input = sys.stdin.readline
-n, m, k = map(int, input().split())
-l = []
-tree = [0] * 3000000
-for _ in range(n):
-    l.append(int(input().rstrip()))
+T = int(sys.stdin.readline())  # 테스트케이스 수
 
+errFlag = False
+for _ in range(T):
+    p = sys.stdin.readline()  # 함수
+    n = int(sys.stdin.readline())  # 배열 속 수의 개수
+    arr = sys.stdin.readline()[1:-2].split(",")
 
-# 세그먼트 트리 생성
-def init(node, start, end):
-    if start == end:
-        tree[node] = l[start]
-        return tree[node]
+    if arr[0] != '':
+        arr = deque(arr)
     else:
-        tree[node] = init(node*2, start, (start+end)//2) + init(node*2+1, (start+end)//2+1, end)
-        return tree[node]
+        arr = deque()
 
-import sys
+    direction_Flag = True
 
-input = sys.stdin.readline
-n = int(input())
-budgets = list(map(int, input().split()))
-budgets.sort()
-m = int(input())
+    for i in p:
+        if i == "R":
+            if direction_Flag == True:
+                direction_Flag = False
+            elif direction_Flag == False:
+                direction_Flag = True
+        elif i == "D":
+            if len(arr) == 0:
+                print("error")
+                errFlag = True
+                break
 
+            if direction_Flag == True:
+                arr.popleft()
+            elif direction_Flag == False:
+                arr.pop()
 
-def binary_search(budgets):
-    left = 0
-    right = budgets[-1]
+    if p.count('R') % 2 != 0:
+        arr.reverse()
 
-    while left <= right:
-        mid = (left + right) // 2
-        num = 0
-        for budget in budgets:
-            if budget >= mid:
-                num += mid
-            else:
-                num += budget
-        if num <= m:
-            left = mid + 1
-        else:
-            right = mid - 1
-
-    return right
-
-
-print(binary_search(budgets))
+    if errFlag == False:
+        print("[", end="")
+        for i in range(len(arr)):
+            print(arr[i], end="")
+            if i != len(arr) - 1:
+                print(",", end="")
+        print("]")
+    errFlag = False
