@@ -1,46 +1,33 @@
-from collections import deque
 import sys
 
-T = int(sys.stdin.readline())  # 테스트케이스 수
+input = sys.stdin.readline
+s = input().strip()
 
-errFlag = False
-for _ in range(T):
-    p = sys.stdin.readline()  # 함수
-    n = int(sys.stdin.readline())  # 배열 속 수의 개수
-    arr = sys.stdin.readline()[1:-2].split(",")
 
-    if arr[0] != '':
-        arr = deque(arr)
-    else:
-        arr = deque()
-
-    direction_Flag = True
-
-    for i in p:
-        if i == "R":
-            if direction_Flag == True:
-                direction_Flag = False
-            elif direction_Flag == False:
-                direction_Flag = True
-        elif i == "D":
-            if len(arr) == 0:
-                print("error")
-                errFlag = True
+def solv():
+    if len(s) < 4:
+        target = s[0]
+        flag = True
+        for n in s[1:]:
+            if target != n:
+                flag = False
                 break
+        if flag:
+            print(s, s)
+            return
 
-            if direction_Flag == True:
-                arr.popleft()
-            elif direction_Flag == False:
-                arr.pop()
+    for start in range(1, 1000):
+        temp_str = str(start)
+        if temp_str[0] == s[0]:
+            temp_str = ''
+            for end in range(start, 1000):
+                temp_str += str(end)
+                if len(temp_str) == len(s):
+                    if temp_str == s:
+                        print(start, end)
+                        return
+                    else:
+                        break
 
-    if p.count('R') % 2 != 0:
-        arr.reverse()
 
-    if errFlag == False:
-        print("[", end="")
-        for i in range(len(arr)):
-            print(arr[i], end="")
-            if i != len(arr) - 1:
-                print(",", end="")
-        print("]")
-    errFlag = False
+solv()
