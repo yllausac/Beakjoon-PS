@@ -1,33 +1,49 @@
 import sys
+from collections import deque
 
 input = sys.stdin.readline
-s = input().strip()
+n, m = map(int, input().split())
+before = [list(input().strip().split()) for _ in range(n)]
+after = [list(input().strip().split()) for _ in range(n)]
+dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
 
 
 def solv():
-    if len(s) < 4:
-        target = s[0]
-        flag = True
-        for n in s[1:]:
-            if target != n:
-                flag = False
-                break
-        if flag:
-            print(s, s)
-            return
-
-    for start in range(1, 1000):
-        temp_str = str(start)
-        if temp_str[0] == s[0]:
-            temp_str = ''
-            for end in range(start, 1000):
-                temp_str += str(end)
-                if len(temp_str) == len(s):
-                    if temp_str == s:
-                        print(start, end)
-                        return
-                    else:
-                        break
+    for x in range(n):
+        for y in range(m):
+            if before[x][y] != after[x][y]:
+                bfs(x, y)
+                return check()
+    return 'YES'
 
 
-solv()
+def bfs(x, y):
+    global before
+    visited = [[False] * m for _ in range(n)]
+    queue = deque([(x, y)])
+
+    visited[x][y] = True
+    target = before[x][y]
+    num = after[x][y]
+    while queue:
+        cx, cy = queue.pop()
+        before[cx][cy] = num
+
+        for k in range(4):
+            nx = cx + dx[k]
+            ny = cy + dy[k]
+            if 0 <= nx < n and 0 <= ny < m and visited[nx][ny] == False:
+                if before[nx][ny] == target:
+                    visited[nx][ny] = True
+                    queue.appendleft((nx, ny))
+
+
+def check():
+    for x in range(n):
+        for y in range(m):
+            if before[x][y] != after[x][y]:
+                return 'NO'
+    return 'YES'
+
+
+print(solv())
