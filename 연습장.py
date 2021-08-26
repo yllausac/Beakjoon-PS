@@ -1,43 +1,58 @@
+from math import *
 import sys
 
 input = sys.stdin.readline
-n = int(input())
-m = int(input())
-parent = [0] * (n+1)
-for i in range(1, n+1):
-    parent[i] = i
+
+n, m = map(int, input().split())
+num = []
+for _ in range(n):
+    num.append(int(input()))
+h = int(ceil(log2(n)))
+t_size = 1 << (h+1)
+tree_Min = [0]*t_size
+tree_Max = [0]*t_size
 
 
-def find(a):  # a 노드의 부모노드 찾기
-    if a == parent[a]:
-        return a
-    p = find(parent[a])
-    parent[a] = p
-    return parent[a]
+def init_Min(start, end, index):
+    if start == end:
+        tree_Min[index] = num[start]
+        return tree_Min[index]
+    mid = (start + end) // 2
+    tree_Min[index] = min(init_Min(start, mid, index*2), init_Min(mid+1, end, index*2 + 1))
+    return tree_Min[index]
 
 
-def union(a, b):  # a집합과 b집합 합치기
-    a = find(a)
-    b = find(b)
-    if a == b:
-        return  # 동일한 집합이면 연결시에 순환이 발생
-    if a < b:
-        parent[b] = a
-    else:
-        parent[a] = b
+def init_Max(start, end, index):
+    if start == end:
+        tree_Max[index] = num[start]
+        return tree_Max[index]
+    mid = (start + end) // 2
+    tree_Max[index] = max(init_Max(start, mid, index*2), init_Max(mid+1, end, index*2 + 1))
+    return tree_Max[index]
 
 
-for y in range(1, n+1):  # y번째 도시
-    graph = list(map(int, input().split()))
-    for x in range(1, len(graph)+1):
-        if graph[x-1] == 1:
-            union(y, x)
-
-plan = list(map(int, input().split()))
-result = set([find(city) for city in plan])
-if len(result) != 1:
-    print('NO')
-else:
-    print('YES')
+def query_Min(start, end, index, qleft, qright):
+    if start > qright or end < qleft:
+        return 1000000001
+    if qleft <= start and end <= qright:
+        return tree_Min[index]
+    mid = (start + end) // 2
+    return min(query_Min(start, mid, index*2, qleft, qright), query_Min(mid+1, end, index*2+1, qleft, qright))
 
 
+def query_Max(start, end, index, qleft, qright):
+    if start > qright or end < qleft:
+        return 0
+    if qleft <= start and end <= qright:
+        return tree_Max[index]
+    mid = (start + end) // 2
+    return max(query_Max(start, mid, index*2, qleft, qright), query_Max(mid+1, end, index*2+1, qleft, qright))
+
+
+init_Min(0, n-1, 1)
+init_Max(0, n-1, 1)
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    print(query_Min(0, n-1, 1, a-1, b-1), end=' ')
+    print(query_Max(0, n-1, 1, a-1, b-1))
