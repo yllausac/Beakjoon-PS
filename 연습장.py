@@ -1,13 +1,31 @@
-def solution(dice):
-    answer = []
-    dp = [i for i in range(1, 10000)]
-    n = len(dice)
+import sys
+
+input = sys.stdin.readline
+n = int(input())
+word = []
+for _ in range(n):
+    word.append(list(input().rstrip()))
+alpha_dict = {}
+num = []
+
+for i in range(n):
+    for j in range(len(word[i])):
+        if word[i][j] in alpha_dict:
+            alpha_dict[word[i][j]] += 10 ** (len(word[i])-j-1)
+        else:
+            alpha_dict[word[i][j]] = 10 ** (len(word[i])-j-1)
+
+for val in alpha_dict.values():
+    num.append(val)
+
+sum = 0
+idx = 9
+for i in num:
+    sum += idx * i
+    idx -= 1
+
+print(sum)
 
 
-
-    return answer
-
-
-print(solution([[0, 1, 5, 3, 9, 2], [2, 1, 0, 4, 8, 7], [6, 3, 4, 7, 6, 5]]))
 
 
