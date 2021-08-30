@@ -18,6 +18,8 @@ for i in range(n):
 for val in alpha_dict.values():
     num.append(val)
 
+num.sort(reverse=True)
+
 sum = 0
 idx = 9
 for i in num:
