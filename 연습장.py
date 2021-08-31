@@ -1,36 +1,33 @@
+import sys
+
+input = sys.stdin.readline
 n = int(input())
-posi = []
-nega = []
-result = 0
+word = []
 for _ in range(n):
-    a = int(input())
-    if a > 1:
-        posi.append(a)
-    elif a == 1:
-        result += 1
-    else:
-        nega.append(a)
+    word.append(list(input().rstrip()))
+alpha_dict = {}
+num = []
 
-posi.sort(reverse=True)
-nega.sort()
+for i in range(n):
+    for j in range(len(word[i])):
+        if word[i][j] in alpha_dict:
+            alpha_dict[word[i][j]] += 10 ** (len(word[i])-j-1)
+        else:
+            alpha_dict[word[i][j]] = 10 ** (len(word[i])-j-1)
 
-if len(posi) % 2 == 0:
-    for i in range(0, len(posi), 2):
-        result += posi[i] * posi[i+1]
-else:
-    for i in range(0, len(posi)-1, 2):
-        result += posi[i] * posi[i+1]
-    result += posi[len(posi)-1]
+for val in alpha_dict.values():
+    num.append(val)
 
-if len(nega) % 2 == 0:
-    for i in range(0, len(nega), 2):
-        result += nega[i] * nega[i+1]
-else:
-    for i in range(0, len(nega)-1, 2):
-        result += nega[i] * nega[i+1]
-    result += nega[len(nega)-1]
+num.sort(reverse=True)
 
-print(result)
+sum = 0
+idx = 9
+for i in num:
+    sum += idx * i
+    idx -= 1
+
+print(sum)
+
 
 
 
