@@ -1,45 +1,31 @@
 import sys
 
 input = sys.stdin.readline
-n, k = map(int, input().split())
-multitap = list(map(int, input().split()))
+R, C = map(int, input().split())
+graph = []
+for _ in range(R):
+    graph.append(list(input().rstrip()))
+dx = [-1, 0, 1]
+visit = [[False]*C for _ in range(R)]
+ans = 0
 
-plugs = []
-count = 0
 
-for i in range(k):
-    # 있으면 건너 뛴다.
-    if multitap[i] in plugs:
-        continue
+def solve(i, j):
+    if j == C-1:
+        return True
 
-    # 플러그가 1개라도 비어 있으면 집어넣는다.
-    if len(plugs) < n:
-        plugs.append(multitap[i])
-        continue
+    for d in dx:
+        if 0 <= i + d < R and graph[i+d][j+1] == '.' and not visit[i+d][j+1]:
+            visit[i+d][j+1] = True
+            if solve(i+d, j+1):
+                return True
+    return False
 
-    multitap_idxs = []  # 다음 멀티탭의 값을 저장.
-    hasplug = True
 
-    for j in range(n):
-        # 멀티탭 안에 플러그 값이 있다면
-        if plugs[j] in multitap[i:]:
-            # 멀티탭 인덱스 위치 값 가져오기.
-            multitap_idx = multitap[i:].index(plugs[j])
-        else:
-            multitap_idx = 101
-            hasplug = False
+for i in range(R):
+    if graph[i][0] == '.':
+        if solve(i, 0):
+            ans += 1
 
-        # 인덱스에 값을 넣어준다.
-        multitap_idxs.append(multitap_idx)
+print(ans)
 
-        # 없다면 종료
-        if not hasplug:
-            break
-
-    # 플러그를 뽑는다.
-    plug_out = multitap_idxs.index(max(multitap_idxs))
-    del plugs[plug_out]  # 플러그에서 제거
-    plugs.append(multitap[i])  # 플러그에 멀티탭 값 삽입
-    count += 1  # 뽑았으므로 1 증가
-
-print(count)
