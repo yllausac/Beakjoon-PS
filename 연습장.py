@@ -1,38 +1,30 @@
-import sys
+import heapq
 
-input = sys.stdin.readline
-n = int(input())
-posi, nega = [], []
-result = 0
+n, k = map(int, input().split())
+gem = []
 for _ in range(n):
-    num = int(input())
-    if num > 1:
-        posi.append(num)
-    elif num == 1:
-        result += 1
-    else:
-        nega.append(num)
+    m, v = map(int, input().split())
+    heapq.heappush(gem, [m, v])  # gem에다가 [m, v]를 넣음
 
-posi.sort(reverse=True)
-nega.sort()
+bag = []
+for _ in range(k):
+    capacity = int(input())
+    heapq.heappush(bag, capacity)  # bag에다 capacity를 넣음
 
-if len(posi) % 2 == 0:
-    for i in range(0, len(posi), 2):
-        result += posi[i] * posi[i + 1]
-else:
-    for i in range(0, len(posi) - 1, 2):
-        result += posi[i] * posi[i + 1]
-    result += posi[len(posi) - 1]
+total_value = 0
+capable_gem = []
 
-if len(nega) % 2 == 0:
-    for i in range(0, len(nega), 2):
-        result += nega[i] * nega[i + 1]
-else:
-    for i in range(0, len(nega) - 1, 2):
-        result += nega[i] * nega[i + 1]
-    result += nega[len(nega) - 1]
+for _ in range(k):
+    capacity = heapq.heappop(bag)  # bag의 최솟값을 heappop
+    while gem and capacity >= gem[0][0]:  # 현재 bag의 capacity보다 이하인 모든 보석
+        [m, v] = heapq.heappop(gem)  # 최소 무게부터 꺼낸다
+        heapq.heappush(capable_gem, -v)  # 무게를 제외한 값만 heappush하여 넣어준다
+    if capable_gem:  # gem 최소보다는 작지만 넣을 수 있는 보석은 있는 경우
+        total_value -= heapq.heappop(capable_gem)
+    elif not gem:  # 남은 보석이 없는 경우
+        break
 
-print(result)
+print(total_value)
 
 
 
