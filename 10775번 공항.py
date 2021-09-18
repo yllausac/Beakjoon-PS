@@ -3,16 +3,33 @@ import sys
 input = sys.stdin.readline
 g = int(input())
 p = int(input())
-gate = [False] * g
-result = 0
-
+plane = []
 for _ in range(p):
-    plane = int(input())
-    if not gate[plane-1]:
-        gate[plane-1] = True
-        result += 1
-    else:
-        pass
+    plane.append(int(input()))
 
-print(result)
+
+def parent_find(x):
+    if x == parent[x]:
+        return x
+    p = parent_find(parent[x])
+    parent[x] = p
+    return parent[x]
+
+
+def union(x, y):
+    x = parent_find(x)
+    y = parent_find(y)
+    parent[x] = y
+
+
+parent = {i:i for i in range(g+1)}
+cnt = 0
+for i in plane:
+    x = parent_find(i)
+    if x == 0:
+        break
+    union(x, x-1)
+    cnt += 1
+
+print(cnt)
 
