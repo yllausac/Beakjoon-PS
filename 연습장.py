@@ -2,18 +2,20 @@ import sys
 
 input = sys.stdin.readline
 n, k = map(int, input().split())
-number = list(map(int, input().rstrip()))
+number = list(map(int, input().strip()))
 result = []
+delnum = k
 
 for i in range(n):
-    while k > 0 and result:
-        if result[len(result)-1] < number[i]:
+    while delnum > 0 and result:
+        if result[-1] < number[i]:
             result.pop()
-            k -= 1
+            delnum -= 1
         else:
             break
     result.append(number[i])
 
-for i in range(len(result)):
+for i in range(n-k):
     print(result[i], end='')
+
 
